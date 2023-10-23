@@ -38,10 +38,6 @@ function Container(props) {
     mMeetingRef.current = mMeeting;
   }, [mMeeting]);
 
-  useEffect(() => {
-    const meetingID = localStorage.getItem("myKey");
-    console.log("meetingID", meetingID);
-  }, []);
   return (
     <div className="container">
       <h3>Meeting Id: {meetingId}</h3>

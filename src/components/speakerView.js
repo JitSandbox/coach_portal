@@ -8,15 +8,21 @@ function SpeakerView({ isHost, hostDetails, setHostDetails, participantDetails, 
     const { accept } = data;
     accept();
   };
+
+  const onWebcamRequested = (data) => {
+    const { accept } = data;
+    accept();
+  };
+
   //Get the participants and hlsState from useMeeting
   const { participants, hlsState } = useMeeting({
     onMicRequested,
+    onWebcamRequested,
   });
 
   //Filtering the host/speakers from all the participants
   const speakers = useMemo(() => {
     const speakerParticipants = [...participants.values()].filter((participant) => {
-      console.log("participant", participant);
       return participant.mode == Constants.modes.CONFERENCE;
     });
     return speakerParticipants;
@@ -25,12 +31,7 @@ function SpeakerView({ isHost, hostDetails, setHostDetails, participantDetails, 
   useEffect(() => {
     hostDetails.length == 0 && setHostDetails(speakers[0]);
     setParticipantDetails(() => speakers.slice(1));
-    console.log("speakersList", speakers);
   }, [speakers]);
-
-  useEffect(() => {
-    console.log("host and participant details", hostDetails, participantDetails);
-  }, [hostDetails, participantDetails]);
 
   return (
     <div>
@@ -44,6 +45,7 @@ function SpeakerView({ isHost, hostDetails, setHostDetails, participantDetails, 
           isHost={isHost}
           participantId={participant.id}
           hostDetails={hostDetails}
+          participantDetails={participantDetails}
           key={participant.id}
         />
       ))}

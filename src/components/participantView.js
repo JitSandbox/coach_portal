@@ -3,10 +3,9 @@ import React, { useEffect, useMemo, useRef } from "react";
 import ReactPlayer from "react-player";
 
 function ParticipantView(props) {
-  const { isHost, participantId, hostDetails } = props;
-  console.log("🚀 ~ hostDetails:", hostDetails);
+  const { isHost, participantId, hostDetails, participantDetails } = props;
   const micRef = useRef(null);
-  const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName, disableMic, enableMic } = useParticipant(participantId);
+  const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName, disableMic, enableMic, enableWebcam, disableWebcam } = useParticipant(participantId);
 
   const videoStream = useMemo(() => {
     if (webcamOn && webcamStream) {
@@ -44,9 +43,33 @@ function ParticipantView(props) {
       />
       {isHost && hostDetails.id !== participantId && (
         <div>
-          <button onClick={() => disableMic()}>disable Mic</button>
+          <button
+            onClick={() => disableWebcam()}
+            disabled={!webcamOn}
+          >
+            disable webCam
+          </button>
           &emsp;|&emsp;
-          <button onClick={() => enableMic()}>enable Mic</button>
+          <button
+            onClick={() => enableWebcam()}
+            disabled={webcamOn}
+          >
+            enable webcam
+          </button>
+          &emsp;|&emsp;
+          <button
+            onClick={() => disableMic()}
+            disabled={!micOn}
+          >
+            disable Mic
+          </button>
+          &emsp;|&emsp;
+          <button
+            onClick={() => enableMic()}
+            disabled={micOn}
+          >
+            enable Mic
+          </button>
         </div>
       )}
       {webcamOn && (

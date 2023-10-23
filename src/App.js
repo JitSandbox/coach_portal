@@ -30,13 +30,8 @@ function App() {
   };
 
   function handleSubmit() {
-    console.log("submit clicked ,", role, userName);
-    role === "host" ? setISHost(true) : setISHost(false);
+    role === "coach" ? setISHost(true) : setISHost(false);
   }
-
-  useEffect(() => {
-    console.log(isHost);
-  }, [isHost]);
 
   return authToken && meetingId ? (
     <MeetingProvider
